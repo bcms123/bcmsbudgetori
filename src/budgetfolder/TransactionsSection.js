@@ -112,17 +112,23 @@ function TransactionsSection({
           </div>
         </div>
       </div>
-      <div className="overflow-x-auto">
+      <div className="overflow-auto max-h-[600px]">
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Date</th>
-              <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Type</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Category</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Description</th>
-              <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">Project</th>
-              <th className="px-4 py-3 text-right text-sm font-medium text-gray-900">Amount</th>
-              <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">Actions</th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-gray-900 sticky top-0 bg-gray-50 z-10">Date</th>
+              <th className="px-4 py-3 text-center text-sm font-medium text-gray-900 sticky top-0 bg-gray-50 z-10">Type</th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-gray-900 sticky top-0 bg-gray-50 z-10">Category</th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-gray-900 sticky top-0 bg-gray-50 z-10">Description</th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-gray-900 sticky top-0 bg-gray-50 z-10">Project</th>
+              <th className="px-4 py-3 text-center text-sm font-medium text-gray-900 sticky top-0 bg-gray-50 z-10" colSpan="2">Amount</th>
+              <th className="px-4 py-3 text-center text-sm font-medium text-gray-900 sticky top-0 bg-gray-50 z-10">Actions</th>
+            </tr>
+            <tr>
+              <th colSpan="5" className="sticky top-11 bg-gray-50 z-10"></th>
+              <th className="px-4 py-1 text-right text-xs font-medium text-gray-600 sticky top-11 bg-gray-50 z-10">Income</th>
+              <th className="px-4 py-1 text-right text-xs font-medium text-gray-600 sticky top-11 bg-gray-50 z-10">Expense</th>
+              <th className="sticky top-11 bg-gray-50 z-10"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
@@ -139,10 +145,11 @@ function TransactionsSection({
                 <td className="px-4 py-3 text-sm text-left">{entry.category}</td>
                 <td className="px-4 py-3 text-sm text-left">{entry.description}</td>
                 <td className="px-4 py-3 text-sm text-left">{entry.project_name || '-'}</td>
-                <td className="px-4 py-3 text-sm font-semibold text-right">
-                  <span className={entry.type === 'income' ? 'text-green-600' : 'text-red-600'}>
-                    QAR {entry.amount.toLocaleString()}
-                  </span>
+                <td className="px-4 py-3 text-sm font-semibold text-right text-green-600">
+                  {entry.type === 'income' ? `QAR ${entry.amount.toLocaleString()}` : ''}
+                </td>
+                <td className="px-4 py-3 text-sm font-semibold text-right text-red-600">
+                  {entry.type === 'expense' ? `QAR ${entry.amount.toLocaleString()}` : ''}
                 </td>
                 <td className="px-4 py-3 text-sm text-center">
                   <div className="flex space-x-2 justify-center">
