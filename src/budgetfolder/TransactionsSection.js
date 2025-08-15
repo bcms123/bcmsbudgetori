@@ -5,8 +5,40 @@ function TransactionsSection({
   filteredEntries, searchQuery, setSearchQuery, filterType, setFilterType, singleDate, setSingleDate,
   fromDate, setFromDate, toDate, setToDate, openAddForm, editEntry, deleteEntry
 }) {
+  // Calculate totals from filteredEntries
+  const totalIn = filteredEntries
+    .filter(entry => entry.type === 'income')
+    .reduce((sum, entry) => sum + entry.amount, 0);
+
+  const totalOut = filteredEntries
+    .filter(entry => entry.type === 'expense')
+    .reduce((sum, entry) => sum + entry.amount, 0);
+
+  const netBalance = totalIn - totalOut;
+
   return (
     <div className="bg-white rounded-lg shadow-sm">
+      {/* Balance Section */}
+      <div className="p-6 border-b bg-gray-50">
+        <div className="flex flex-col items-center gap-6 md:flex-row md:justify-around md:items-center">
+          <div className="bg-white border border-gray-200 rounded-xl shadow-lg p-4 max-w-xs text-center">
+            <p className="text-sm text-gray-600 font-medium">Total Income</p>
+            <p className="text-2xl font-bold mt-2 text-green-600">QAR {totalIn.toLocaleString()}</p>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl shadow-lg p-4 max-w-xs text-center">
+            <p className="text-sm text-gray-600 font-medium">Total Expenses</p>
+            <p className="text-2xl font-bold mt-2 text-red-600">QAR {totalOut.toLocaleString()}</p>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl shadow-lg p-4 max-w-xs text-center">
+            <p className="text-sm text-gray-600 font-medium">Net Balance</p>
+            <p className={`text-2xl font-bold mt-2 ${netBalance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              QAR {netBalance.toLocaleString()}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Existing Header and Filters */}
       <div className="p-6 border-b flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <h3 className="text-lg font-semibold">Transaction History</h3>
         <div className="flex flex-col gap-4 w-full md:w-auto md:flex-row md:items-center md:gap-4">
@@ -72,7 +104,7 @@ function TransactionsSection({
             </button>
             <button
               onClick={() => openAddForm('expense')}
-              className="flex-1 bg-red-600 text-white px-4 py-2 rounded-lg font-semibold flex items-center justify-center hover:bg-red-700 transition-colors"
+              className="flex-1 bg-red-600 text-white px-4 py-2 rounded-xl font-semibold flex items-center justify-center hover:bg-red-700 transition-colors"
             >
               <Minus className="mr-2 w-4 h-4" />
               CASH OUT
